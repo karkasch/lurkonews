@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lurkonews", "web\Lurkonews.csproj", "{023EFD4F-8A99-4163-AF8B-B6BA7B0EA096}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lurkonews", "Lurkonews\Lurkonews.csproj", "{BFC89DE4-037A-4163-A262-3705DB2AECA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{023EFD4F-8A99-4163-AF8B-B6BA7B0EA096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{023EFD4F-8A99-4163-AF8B-B6BA7B0EA096}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{023EFD4F-8A99-4163-AF8B-B6BA7B0EA096}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{023EFD4F-8A99-4163-AF8B-B6BA7B0EA096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFC89DE4-037A-4163-A262-3705DB2AECA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC89DE4-037A-4163-A262-3705DB2AECA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC89DE4-037A-4163-A262-3705DB2AECA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC89DE4-037A-4163-A262-3705DB2AECA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
