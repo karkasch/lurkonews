@@ -8,6 +8,7 @@ using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
 using Lurkonews.Domain;
+using System.Threading.Tasks;
 
 namespace Lurkonews.Controllers
 {
@@ -16,9 +17,8 @@ namespace Lurkonews.Controllers
         //private Lurkdict _lurk;
         // GET: Read
         [ValidateInput(false)]
-        public ActionResult Index(string url)
+        public async Task<ActionResult> Index(string url)
         {
-            //var url = "http://google.com?" + id;
             try
             {
                 if (string.IsNullOrWhiteSpace(url))
@@ -41,45 +41,50 @@ namespace Lurkonews.Controllers
 
 
                 string data = "";
+                var baseUrl = new Uri(url).GetLeftPart(UriPartial.Authority);
+
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.UserAgent = "Mozilla/5.0";
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-
-                var baseUrl = request.RequestUri.GetLeftPart(UriPartial.Authority);
-
-                if (response.StatusCode == HttpStatusCode.OK)
+                request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+                
+                using (var response = (HttpWebResponse) await request.GetResponseAsync())
                 {
-                    Stream receiveStream = response.GetResponseStream();
-                    StreamReader readStream = null;
+                    baseUrl = request.RequestUri.GetLeftPart(UriPartial.Authority);
 
-                    if (response.CharacterSet == null)
+                    if (response.StatusCode == HttpStatusCode.OK)
                     {
-                        readStream = new StreamReader(receiveStream, true);
-                    }
-                    else
-                    {
-                        readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
-                    }
+                        using (var receiveStream = response.GetResponseStream())
+                        {
+                            StreamReader readStream = null;
 
-                    data = readStream.ReadToEnd();
+                            if (response.CharacterSet == null)
+                            {
+                                readStream = new StreamReader(receiveStream, true);
+                            }
+                            else
+                            {
+                                readStream = new StreamReader(receiveStream, Encoding.GetEncoding(response.CharacterSet));
+                            }
 
-                    response.Close();
-                    readStream.Close();
+                            data = readStream.ReadToEnd();
+                        }
+                    }
                 }
 
                 // replace
-                data = data.Replace(" src=\"/", " src=\"" + baseUrl + "/");
-                data = data.Replace(" href=\"/", " href=\"" + baseUrl + "/");
+                data = Regex.Replace(data, @"( src=""/)([a-z]{1})", " src=\"" + baseUrl + "/$2");
 
+                data = Regex.Replace(data, @"( href=""/)([a-z]{1})", " href=\"" + baseUrl + "/$2");
+
+                var repRe = new Regex(@"<script[^>]*>(.*?)<\/script[^>]*>", RegexOptions.IgnoreCase & RegexOptions.Singleline);
+                data = repRe.Replace(data, "");
 
                 data = Lurkdict.Process(data);
-                //data = data.Replace("Мутко", "Рашен Федерешен политишен");
 
-                //Response.Write(data);
                 return Content(data);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Content(ex.ToString());
             }
