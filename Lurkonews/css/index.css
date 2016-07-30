@@ -25,17 +25,36 @@ h1 {
     margin: 0 0 20px 0;
 }
 input {
-    border: solid 1px #c0c0c0;
-    padding: 4px 10px 4px 10px;
+    border: solid 1px #cfcfcf;
+    padding: 6px 10px 6px 10px;
     margin-right: 10px;
     width: 40%;
     min-width: 210px;
     border-radius: 2px;
     color: #666666;
 }
+input:hover {
+    border: solid 1px #c0c0c0;
+}
+input:focus {
+    border: solid 1px #999999;
+    outline: none;
+}
+
 button {
     background-color: #e0e0e0;
     border: none;
     border-radius: 2px;
-    padding: 5px 12px 5px 12px;
+    padding: 7px 12px 7px 12px;
+}
+button:hover {
+    background-color: #dcdcdc;
+}
+button:focus {
+    outline: none;
+    padding: 6px 11px 6px 11px;
+    border: solid 1px #999999;
+}
+button:active {
+    transform: translateY(1px);
 }

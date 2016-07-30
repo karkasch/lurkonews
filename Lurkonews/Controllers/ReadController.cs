@@ -105,7 +105,7 @@ namespace Lurkonews.Controllers
             }
             catch (Exception ex)
             {
-                return Content(ex.ToString());
+                return Content("<div style='padding:20px; text-align:center; font-family: Arial, Tahoma;'>Нет новостей чота T_T</div><div style='color:#fcfcfc;'>" + ex.ToString() + "</div>");
             }
         }
     }
