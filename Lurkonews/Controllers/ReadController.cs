@@ -9,6 +9,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Lurkonews.Domain;
 using System.Threading.Tasks;
+using System.Web.Caching;
 
 namespace Lurkonews.Controllers
 {
@@ -37,10 +38,14 @@ namespace Lurkonews.Controllers
                     url = url.Replace("https:/", "https://");
 
 
-                var uri = new Uri(url);
-
-
                 string data = "";
+
+                data = HttpContext.Cache.Get(url) as string;
+                if (!string.IsNullOrWhiteSpace(data))
+                    return Content(data);
+
+
+                var uri = new Uri(url);
                 var baseUrl = new Uri(url).GetLeftPart(UriPartial.Authority);
 
 
@@ -92,6 +97,9 @@ namespace Lurkonews.Controllers
   ga('send', 'pageview');
 
 </script>";
+
+
+                HttpContext.Cache.Insert(url, data, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(45));
 
                 return Content(data);
             }
